@@ -23,8 +23,9 @@ class LoginView {
 		$message = '';
 		$response = $this->generateLoginFormHTML($message);
 		$this->getRequestUserName();
-		//$response .= $this->generateLogoutButtonHTML($message);
-		return $response;
+		$this->getRequestPassword();
+			//$response .= $this->generateLogoutButtonHTML($message);
+			return $response;
 	}
 
 	/**
@@ -70,10 +71,28 @@ class LoginView {
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	private function getRequestUserName() {
-		// $this->name = $name;
 		//RETURN REQUEST VARIABLE: USERNAME
-		var_dump($_REQUEST[self::$name]);
-		var_dump($_REQUEST[self::$password]);
-		return $_REQUEST[self::$name];
+		$username = self::$name;
+		if(isset($_POST[$username]))
+		{
+			echo "username: " . $_POST[$username] . " ";
+			return $_POST[$username];
+		}
+		else
+		{
+			return "";
+		}
+	}
+	private function getRequestPassword() {
+		$password = self::$password;
+		if(isset($_POST[$password]))
+		{
+			echo "password: " . $_POST[$password];
+			return $_POST[$password];
+		}
+		else
+		{
+			return "";
+		}
 	}
 }
