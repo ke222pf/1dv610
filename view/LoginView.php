@@ -1,5 +1,5 @@
 <?php
-
+require_once('controller/GetVariables.php');
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -9,9 +9,9 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-
+	// require_once('./model/LoginModel.php');
 	
-
+	
 	/**
 	 * Create HTTP response
 	 *
@@ -22,9 +22,19 @@ class LoginView {
 	public function response() {
 		$message = '';
 		$response = $this->generateLoginFormHTML($message);
-		$this->getRequestUserName();
-		$this->getRequestPassword();
+		if(!empty($_POST[self::$login]))
+		{
+			// $this->getRequestUserName();
+			// $this->getRequestPassword();
+			$gv = new GetVariables($this->getRequestUserName(), $this->getRequestPassword(), $this->getRequestMessage());
+		}
+		else
+		{
+			$error = 'Please enter a user name';
+			echo $error;
+		}
 			//$response .= $this->generateLogoutButtonHTML($message);
+			
 			return $response;
 	}
 
@@ -75,24 +85,32 @@ class LoginView {
 		$username = self::$name;
 		if(isset($_POST[$username]))
 		{
-			echo "username: " . $_POST[$username] . " ";
 			return $_POST[$username];
 		}
 		else
 		{
 			return "";
-		}
+	}
 	}
 	private function getRequestPassword() {
 		$password = self::$password;
 		if(isset($_POST[$password]))
 		{
-			echo "password: " . $_POST[$password];
 			return $_POST[$password];
 		}
 		else
 		{
+			
 			return "";
+		}
+	}
+	private function getRequestMessage()
+	{
+		
+		if(isset($_POST[$message]))
+		{
+			echo $_POST[$message];
+			return $_POST[$message];
 		}
 	}
 }
