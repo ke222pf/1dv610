@@ -10,6 +10,10 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $registerMessageId = 'RegisterView::Message';
+	private static $registerName = 'RegisterView::UserName';
+	private static $registerPassword = 'RegisterView::Password';
+	private static $registerPasswordRepeat = 'RegisterView::PasswordRepeat';
 	private $userException;
 	public function __construct(\model\UserException $userException) {
 		$this->userException = $userException;
@@ -23,6 +27,7 @@ class LoginView {
 	 */
 	public function response() {
 		$message = '';
+		$Regmessage = "";
 
 		if(!empty($_POST[self::$login]))
 		{
@@ -30,7 +35,6 @@ class LoginView {
 			// $this->getRequestPassword();
 			try
 			{
-				echo "i try blocket";
 				// $this->ValidateUserCredentials();
 				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName());
 			}
@@ -40,6 +44,7 @@ class LoginView {
 			}
 		}
 		$response = $this->generateLoginFormHTML($message);
+		$register = $this->generateRegisterFormHTML($Regmessage);
 			//$response .= $this->generateLogoutButtonHTML($message);
 			
 			return $response;
@@ -74,8 +79,8 @@ class LoginView {
 					<label for="' . self::$name . '">Username :</label>
 					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
 
-					<label for="' . self::$password . '">Password :</label>
-					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
+					<label for="' . self::$registerPassword . '">Password :</label>
+					<input type="password" id="' . self::$registerPassword . '" name="' . self::$registerPassword . '" />
 
 					<label for="' . self::$keep . '">Keep me logged in  :</label>
 					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
@@ -83,6 +88,27 @@ class LoginView {
 					<input type="submit" name="' . self::$login . '" value="login" />
 				</fieldset>
 			</form>
+		';
+	}
+	private function generateRegisterFormHTML ($Regmessage) {
+		return '
+		<form action="?register" method="POST">
+        <fieldset>
+					<legend>Register a new user - Write username and password</legend>
+					<p id="' . self::$registerMessageId . '">' . $Regmessage . '</p>
+					
+					<label for="' . self::$registerName . '">Username :</label>
+					<input type="text" id="' . self::$registerName . '" name="' . self::$registerName . '" value="" />
+
+					<label for="' . self::$password . '">Password :</label>
+					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
+
+					<label for="' . self::$registerPasswordRepeat . '">Repeat password  :</label>
+					<input type="password" id="' . self::$registerPasswordRepeat . '" name="' . self::$registerPasswordRepeat . '" />
+					
+					<input type="submit" name="DoRegistration" value="register" />
+				</fieldset>
+        </form>
 		';
 	}
 	

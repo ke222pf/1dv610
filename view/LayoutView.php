@@ -11,9 +11,9 @@ class LayoutView {
           <title>Login Example</title>
         </head>
         <body>
-          <h1>Assignment 2</h1>
+        <h1>Assignment 2</h1>
+        <a href=?register>Register a new user</a>
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
-          
           <div class="container">
               ' . $v->response() . '
               
