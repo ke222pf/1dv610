@@ -1,5 +1,5 @@
 <?php
-require_once('controller/GetVariables.php');
+namespace view;
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -9,7 +9,6 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	// require_once('./model/LoginModel.php');
 	
 	
 	/**
@@ -21,21 +20,24 @@ class LoginView {
 	 */
 	public function response() {
 		$message = '';
-		$response = $this->generateLoginFormHTML($message);
-		if(!empty($_POST[self::$login]))
+	// 	$gv = new \controller\GetVariables();
+	// 	//$response .= $this->generateLogoutButtonHTML($message);
+	// 	// $this->getRequestUserName();
+	// 	// $this->getRequestPassword();
+	// 	$gv->getCredentials($this->getRequestUserName(), $this->getRequestPassword());
+		if(!empty($_POST[self::$login])) {
+		try
 		{
-			// $this->getRequestUserName();
-			// $this->getRequestPassword();
-			$gv = new GetVariables($this->getRequestUserName(), $this->getRequestPassword(), $this->getRequestMessage());
-		}
-		else
-		{
-			$error = 'Please enter a user name';
-			echo $error;
-		}
-			//$response .= $this->generateLogoutButtonHTML($message);
+			$this->credentialsException();
 			
-			return $response;
+		}
+		catch(Exception $e)
+		{
+			$message = $e->getMessage();
+		}
+	}
+		$response = $this->generateLoginFormHTML($message);
+		return $response;
 	}
 
 	/**
@@ -78,9 +80,9 @@ class LoginView {
 			</form>
 		';
 	}
-	
+
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
+	public function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
 		$username = self::$name;
 		if(isset($_POST[$username]))
@@ -90,9 +92,9 @@ class LoginView {
 		else
 		{
 			return "";
+		}
 	}
-	}
-	private function getRequestPassword() {
+	public function getRequestPassword() {
 		$password = self::$password;
 		if(isset($_POST[$password]))
 		{
@@ -100,17 +102,19 @@ class LoginView {
 		}
 		else
 		{
-			
 			return "";
 		}
 	}
-	private function getRequestMessage()
+	
+	public function credentialsException () {
+	if(empty($this->getRequestUserName()))
 	{
-		
-		if(isset($_POST[$message]))
-		{
-			echo $_POST[$message];
-			return $_POST[$message];
-		}
+		throw new \Exception('no username');
+
+	}	
+    else if(empty($this->getRequestPassword()))
+    {
+		throw new \Exception('no password');
+    } 
 	}
 }
