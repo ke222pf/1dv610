@@ -3,7 +3,7 @@
 namespace view;
 class LayoutView {
   
-  public function render($isLoggedIn, \controller\GetVariables $gv, \view\DateTimeView $dtv) {
+  public function render($isLoggedIn, \view\DateTimeView $dtv, \view\LoginView $v) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -15,7 +15,7 @@ class LayoutView {
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $gv->run() . '
+              ' . $v->response() . '
               
               ' . $dtv->show() . '
           </div>

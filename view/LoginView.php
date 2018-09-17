@@ -1,5 +1,6 @@
 <?php
 namespace view;
+use Exception;
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -9,8 +10,10 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	
-	
+	private $userException;
+	public function __construct(\model\UserException $userException) {
+		$this->userException = $userException;
+	}
 	/**
 	 * Create HTTP response
 	 *
@@ -20,24 +23,26 @@ class LoginView {
 	 */
 	public function response() {
 		$message = '';
-	// 	$gv = new \controller\GetVariables();
-	// 	//$response .= $this->generateLogoutButtonHTML($message);
-	// 	// $this->getRequestUserName();
-	// 	// $this->getRequestPassword();
-	// 	$gv->getCredentials($this->getRequestUserName(), $this->getRequestPassword());
-		if(!empty($_POST[self::$login])) {
-		try
+
+		if(!empty($_POST[self::$login]))
 		{
-			$this->credentialsException();
-			
+			// $this->getRequestUserName();
+			// $this->getRequestPassword();
+			try
+			{
+				echo "i try blocket";
+				// $this->ValidateUserCredentials();
+				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName());
+			}
+			catch(Exception $e)
+			{
+				$message = "Message: " . $e->getMessage();
+			}
 		}
-		catch(Exception $e)
-		{
-			$message = $e->getMessage();
-		}
-	}
 		$response = $this->generateLoginFormHTML($message);
-		return $response;
+			//$response .= $this->generateLogoutButtonHTML($message);
+			
+			return $response;
 	}
 
 	/**
@@ -80,7 +85,7 @@ class LoginView {
 			</form>
 		';
 	}
-
+	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	public function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
@@ -105,16 +110,16 @@ class LoginView {
 			return "";
 		}
 	}
-	
-	public function credentialsException () {
-	if(empty($this->getRequestUserName()))
-	{
-		throw new \Exception('no username');
+	// public function ValidateUserCredentials () {
+	// 	    if(empty($this->getRequestUserName()))
+	// 		{
+	// 			throw new Exception("no username.");
+		
+	// 		}	
+	// 	    else if(empty($this->getRequestPassword()))
+	// 	    {
+	// 			throw new Exception("no password.");
+	// 	    } 
+	// 	    }
 
-	}	
-    else if(empty($this->getRequestPassword()))
-    {
-		throw new \Exception('no password');
-    } 
-	}
 }
