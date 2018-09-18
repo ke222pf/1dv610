@@ -27,11 +27,8 @@ class LoginView {
 
 		if(!empty($_POST[self::$login]))
 		{
-			// $this->getRequestUserName();
-			// $this->getRequestPassword();
 			try
 			{
-				// $this->ValidateUserCredentials();
 				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName());
 			}
 			catch(Exception $e)

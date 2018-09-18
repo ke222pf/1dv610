@@ -16,8 +16,7 @@ class RegisterView {
         if(!empty($_POST[self::$registerUser])) {
         try
 			{
-				// $this->ValidateUserCredentials();
-				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName());
+				$this->userException->VlaidateRegisterUser($this->getRequestRegPassword(), $this->getRequestRegUserName(), $this->getRequestRegPasswordConformation());
 			}
 			catch(Exception $e)
 			{
@@ -50,7 +49,7 @@ class RegisterView {
 		';
     }
     
-	public function getRequestUserName() {
+	public function getRequestRegUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
 		$username = self::$registerName;
 		if(isset($_POST[$username]))
@@ -62,11 +61,22 @@ class RegisterView {
 			return "";
 		}
 	}
-	public function getRequestPassword() {
+	public function getRequestRegPassword() {
 		$password = self::$registerPassword;
 		if(isset($_POST[$password]))
 		{
 			return $_POST[$password];
+		}
+		else
+		{
+			return "";
+		}
+    }
+    public function getRequestRegPasswordConformation() {
+		$passwordConf = self::$registerPasswordRepeat;
+		if(isset($_POST[$passwordConf]))
+		{
+			return $_POST[$passwordConf];
 		}
 		else
 		{
