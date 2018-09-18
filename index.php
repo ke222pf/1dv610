@@ -8,6 +8,7 @@ require_once('controller/GetVariables.php');
 require_once('model/HandleUserCredentials.php');
 require_once('model/UserException.php');
 require_once('model/Userdb.php');
+require_once('view/RegisterView.php');
 
 //MAKE SURE ERRORS ARE SHOWN... MIGHT WANT TO TURN THIS OFF ON A PUBLIC SERVER
 error_reporting(E_ALL);
@@ -17,11 +18,12 @@ ini_set('display_errors', 'On');
 $db = new \model\Userdb();
 $ue = new \model\UserException();
 $v = new \view\LoginView($ue);
+$rv = new \view\RegisterView($ue);
 $huc = new \model\HandleUserCredentials();
-$gv = new \controller\GetVariables($v, $huc);
+$gv = new \controller\GetVariables($v, $huc, $rv, $db);
 $dtv = new \view\DateTimeView();
 $lv = new \view\LayoutView();
-$lv->render(false, $dtv, $v);
+$lv->render(false, $dtv, $v, $rv);
 // $v->response();
 $gv->getCredentials();
 

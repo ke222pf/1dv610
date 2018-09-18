@@ -10,10 +10,6 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	private static $registerMessageId = 'RegisterView::Message';
-	private static $registerName = 'RegisterView::UserName';
-	private static $registerPassword = 'RegisterView::Password';
-	private static $registerPasswordRepeat = 'RegisterView::PasswordRepeat';
 	private $userException;
 	public function __construct(\model\UserException $userException) {
 		$this->userException = $userException;
@@ -43,13 +39,8 @@ class LoginView {
 				$message = "Message: " . $e->getMessage();
 			}
 		}
-			if (isset($_GET["register"])) {
-				return $this->generateRegisterFormHTML($Regmessage);
-			} else {
 				$response = $this->generateLoginFormHTML($message);
 				return $response;
-
-			}
 		
 			//$response .= $this->generateLogoutButtonHTML($message);
 			
@@ -84,8 +75,8 @@ class LoginView {
 					<label for="' . self::$name . '">Username :</label>
 					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
 
-					<label for="' . self::$registerPassword . '">Password :</label>
-					<input type="password" id="' . self::$registerPassword . '" name="' . self::$registerPassword . '" />
+					<label for="' . self::$password . '">Password :</label>
+					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
 
 					<label for="' . self::$keep . '">Keep me logged in  :</label>
 					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
@@ -93,27 +84,6 @@ class LoginView {
 					<input type="submit" name="' . self::$login . '" value="login" />
 				</fieldset>
 			</form>
-		';
-	}
-	private function generateRegisterFormHTML ($Regmessage) {
-		return '
-		<form method="POST" enctype="multipart/form-data">
-        <fieldset>
-					<legend>Register a new user - Write username and password</legend>
-					<p id="' . self::$registerMessageId . '">' . $Regmessage . '</p>
-					
-					<label for="' . self::$registerName . '">Username :</label>
-					<input type="text" id="' . self::$registerName . '" name="' . self::$registerName . '" value="" />
-
-					<label for="' . self::$password . '">Password :</label>
-					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
-
-					<label for="' . self::$registerPasswordRepeat . '">Repeat password  :</label>
-					<input type="password" id="' . self::$registerPasswordRepeat . '" name="' . self::$registerPasswordRepeat . '" />
-					
-					<input type="submit" name="DoRegistration" value="register" />
-				</fieldset>
-        </form>
 		';
 	}
 	
@@ -141,16 +111,5 @@ class LoginView {
 			return "";
 		}
 	}
-	// public function ValidateUserCredentials () {
-	// 	    if(empty($this->getRequestUserName()))
-	// 		{
-	// 			throw new Exception("no username.");
-		
-	// 		}	
-	// 	    else if(empty($this->getRequestPassword()))
-	// 	    {
-	// 			throw new Exception("no password.");
-	// 	    } 
-	// 	    }
 
 }

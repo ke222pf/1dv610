@@ -3,7 +3,7 @@
 namespace view;
 class LayoutView {
   
-  public function render($isLoggedIn, \view\DateTimeView $dtv, \view\LoginView $v) {
+  public function render($isLoggedIn, \view\DateTimeView $dtv, \view\LoginView $v, \view\RegisterView $rv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -15,7 +15,7 @@ class LayoutView {
         '. $this->generateLink().'
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           <div class="container">
-              ' . $v->response() . '
+              ' . $this->generateNewView($v, $rv) . '
               
               ' . $dtv->show() . '
           </div>
@@ -37,6 +37,13 @@ class LayoutView {
       return '<a href="?">Go back</a>';
     } else {
       return '<a href=?register>Register a new user</a>';
+    }
+  }
+  private function generateNewView($v, $rv) {
+    if(isset($_GET['register'])) {
+      return $rv->response();
+    } else {
+      return $v->response();
     }
   }
 }
