@@ -43,11 +43,16 @@ class LoginView {
 				$message = "Message: " . $e->getMessage();
 			}
 		}
-		$response = $this->generateLoginFormHTML($message);
-		$register = $this->generateRegisterFormHTML($Regmessage);
+			if (isset($_GET["register"])) {
+				return $this->generateRegisterFormHTML($Regmessage);
+			} else {
+				$response = $this->generateLoginFormHTML($message);
+				return $response;
+
+			}
+		
 			//$response .= $this->generateLogoutButtonHTML($message);
 			
-			return $response;
 	}
 
 	/**
@@ -92,7 +97,7 @@ class LoginView {
 	}
 	private function generateRegisterFormHTML ($Regmessage) {
 		return '
-		<form action="?register" method="POST">
+		<form method="POST" enctype="multipart/form-data">
         <fieldset>
 					<legend>Register a new user - Write username and password</legend>
 					<p id="' . self::$registerMessageId . '">' . $Regmessage . '</p>

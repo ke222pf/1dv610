@@ -12,7 +12,7 @@ class LayoutView {
         </head>
         <body>
         <h1>Assignment 2</h1>
-        <a href=?register>Register a new user</a>
+        '. $this->generateLink().'
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           <div class="container">
               ' . $v->response() . '
@@ -30,6 +30,13 @@ class LayoutView {
     }
     else {
       return '<h2>Not logged in</h2>';
+    }
+  }
+  private function generateLink () {
+    if(isset($_GET["register"])) {
+      return '<a href="?">Go back</a>';
+    } else {
+      return '<a href=?register>Register a new user</a>';
     }
   }
 }
