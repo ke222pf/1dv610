@@ -8,16 +8,13 @@ class RegisterView {
     private static $registerPasswordRepeat = 'RegisterView::PasswordRepeat';
     private static $registerUser = 'DoRegistration';
     private $userException;
-    private $connectDb;
-	public function __construct(\model\UserException $userException, \model\ConnectDb $connectDb) {
+	public function __construct(\model\UserException $userException) {
         $this->userException = $userException;
-        $this->connectDb = $connectDb;
 	}
     public function response() {
         $message = '';
         if(!empty($_POST[self::$registerUser])) {
-            $this->connectDb->createConnection();
-        try
+            try
 			{
 				$this->userException->VlaidateRegisterUser($this->getRequestRegPassword(), $this->getRequestRegUserName(), $this->getRequestRegPasswordConformation());
 			}

@@ -27,5 +27,8 @@ public function ValidateUserCredentials ($password, $name) {
         {
             throw new \Exception("Passwords do not match.");
         }
+        else if(strlen($regPassword) <= 6) {
+            throw new \Exception("Password has too few characters, at least 6 characters.");
+        }
     }
 }

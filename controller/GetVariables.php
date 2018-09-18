@@ -4,15 +4,25 @@ class GetVariables {
 private $view;
 private $registerView;
 private $userdb;
-public function __construct(\view\LoginView $view, \view\RegisterView $registerView, \model\Userdb $userdb) {
+private $login;
+public function __construct(\view\LoginView $view, \view\RegisterView $registerView, \model\Userdb $userdb, \model\Login $login) {
 $this->view = $view;
 $this->registerView = $registerView;
 $this->userdb = $userdb;
+$this->login = $login;
 }
 public function getCredentials()
 {
-    $this->userdb->setUpToDb($this->registerView->getRequestRegUserName());
-    $this->userdb->hashPassword($this->registerView->getRequestRegPassword());
+    if($this->registerView->getRequestRegUserName() && $this->registerView->getRequestRegPassword()) {
+        $this->userdb->getUserCredentials($this->registerView->getRequestRegUserName());
+        $this->userdb->hashPassword($this->registerView->getRequestRegPassword());
+        $this->userdb->setUpToDB();
+        // $this->view-response();
+    }
+    if($this->view->getRequestUserName() && $this->view->getRequestPassword()) {
+        $this->login->getCredentials($this->view->getRequestUserName(), $this->view->getRequestPassword());
+        $this->login->match();
+    }
 }
 
 }
