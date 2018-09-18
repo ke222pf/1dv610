@@ -33,7 +33,7 @@ class LoginView {
 			}
 			catch(Exception $e)
 			{
-				$message = "Message: " . $e->getMessage();
+				$message = $e->getMessage();
 			}
 		}
 				$response = $this->generateLoginFormHTML($message);

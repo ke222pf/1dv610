@@ -5,12 +5,12 @@ class UserException {
 public function ValidateUserCredentials ($password, $name) {
     if(empty($name))
 	{
-		throw new \Exception("no username");
+		throw new \Exception("Username is missing");
 
 	}	
     else if(empty($password))
     {
-		throw new \Exception("no password");
+		throw new \Exception("Password is missing");
     } 
     }
     public function VlaidateRegisterUser($regPassword, $regName, $regPasswordConf) {
@@ -23,8 +23,9 @@ public function ValidateUserCredentials ($password, $name) {
         {
             throw new \Exception("no password");
         }
-        else if($regPassword != $regPasswordConf) {
-            throw new \Exception("Password must match with repeat password!");
+        else if($regPassword != $regPasswordConf) 
+        {
+            throw new \Exception("Passwords do not match.");
         }
     }
 }
