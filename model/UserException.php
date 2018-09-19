@@ -19,7 +19,7 @@ public function ValidateUserCredentials ($password, $name, $matchUser) {
     }
     }
 
-    public function VlaidateRegisterUser($regPassword, $regName, $regPasswordConf) {
+    public function VlaidateRegisterUser($regPassword, $regName, $regPasswordConf, $checkUserReg) {
         if(empty($regName))
         {
             throw new \Exception("no username");
@@ -33,11 +33,14 @@ public function ValidateUserCredentials ($password, $name, $matchUser) {
         {
             throw new \Exception("Passwords do not match.");
         }
-        else if(strlen($regPassword) <= 6) {
+        else if(strlen($regPassword) < 6) {
             throw new \Exception("Password has too few characters, at least 6 characters.");
         }
-        else if(strlen($regName) <= 3) {
+        else if(strlen($regName) < 3) {
             throw new \Exception("Username has too few characters, at least 3 characters.");
+        }
+        else if($checkUserReg = true) {
+            throw new \Exception("Registered new user.");
         }
     }
 }
