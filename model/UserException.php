@@ -13,8 +13,11 @@ public function ValidateUserCredentials ($password, $name, $matchUser) {
 		throw new \Exception("Password is missing");
     } 
     else if($matchUser = false) {
+
         throw new \Exception("Wrong name or password");
+
     } else if($matchUser = true) {
+        
         throw new \Exception("Welcome");
     }
     }

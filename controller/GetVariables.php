@@ -14,7 +14,7 @@ $this->login = $login;
 public function getCredentials()
 {
     if($this->registerView->getRequestRegUserName() && $this->registerView->getRequestRegPassword()) {
-        $this->userdb->getUserCredentials($this->registerView->getRequestRegUserName());
+        $this->userdb->getUserCredentials($this->registerView->getRequestRegUserName(), $this->registerView->getRequestRegPasswordConformation());
         $this->userdb->hashPassword($this->registerView->getRequestRegPassword());
         $this->userdb->setUpToDB();
     }
