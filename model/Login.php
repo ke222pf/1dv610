@@ -4,12 +4,14 @@ class login {
 private $name;
 private $password;
 private $connectDb;
+private $checkUser;
 public function __construct(\model\ConnectDb $connectDb) {
     $this->connectDb = $connectDb;
 }
     public function getCredentials($name, $password) {
        $this->name = $name;
        $this->password = $password;
+       $this->checkUser = false;
     }
     public function match() {
         $getConnection = $this->connectDb->createConnection();
@@ -19,10 +21,13 @@ public function __construct(\model\ConnectDb $connectDb) {
         $matchUser = $getUsername->fetch();
         if($matchUser && password_verify($this->password, $matchUser['password'])) {
             echo "logged in";
-            return true;
+            $this->checkUser = true;
         } else {
             echo "not logged in";
-            return false;
+            $this->checkUser = false;
         }
+    }
+    public function userLoggedIn () {
+        return $this->checkUser;
     }
 }

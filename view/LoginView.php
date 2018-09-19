@@ -11,8 +11,10 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private $userException;
-	public function __construct(\model\UserException $userException) {
+	private $loginUser;
+	public function __construct(\model\UserException $userException, \model\Login $loginUser) {
 		$this->userException = $userException;
+		$this->loginUser = $loginUser;
 	}
 	/**
 	 * Create HTTP response
@@ -29,7 +31,7 @@ class LoginView {
 		{
 			try
 			{
-				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName());
+				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName(), $this->loginUser->userLoggedIn());
 			}
 			catch(Exception $e)
 			{

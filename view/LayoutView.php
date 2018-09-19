@@ -34,7 +34,7 @@ class LayoutView {
   }
   private function generateLink () {
     if(isset($_GET["register"])) {
-      return '<a href="?">Go back</a>';
+      return '<a href="?">Back to login</a>';
     } else {
       return '<a href=?register>Register a new user</a>';
     }
