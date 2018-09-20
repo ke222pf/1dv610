@@ -11,17 +11,19 @@ class Userdb {
         $this->checkRegister = false;
 	}
     //SOURCE:  https://www.youtube.com/watch?v=bjT5PJn0Mu8
-    public function getUserCredentials ($username, $passwordConf) {
+    public function getUserCredentials ($username, $passwordConf, $password) {
         $this->username = $username;
         $this->passwordConf = $passwordConf;
+        $this->password = $password;
     }
     public function setUpToDB () {
         $connect = $this->connectDb->createConnection();
         $mySql = "INSERT INTO users(name, password) VALUES (:name, :password)";
         $setUpUser = $connect->prepare($mySql);
-        if($this->password == $this->passwordConf) {
+        if($this->password == $this->passwordConf && strlen($this->username) > 2 && strlen($this->password > 5)) {
+            $hash = password_hash($this->password, PASSWORD_BCRYPT);
             $setUpUser->bindParam(':name', $this->username);
-            $setUpUser->bindParam(':password', $this->password);
+            $setUpUser->bindParam(':password', $hash);
             if($setUpUser->execute()) {
                 $this->checkRegister = true;
             } else {
@@ -32,7 +34,7 @@ class Userdb {
     public function checkUserReg () {
         return $this->checkRegister;
     }
-    public function hashPassword($passwordReg) {
-       $this->password = password_hash($passwordReg, PASSWORD_BCRYPT);
-    }
+    // public function hashPassword($passwordReg) {
+    //    $this->password = password_hash($passwordReg, PASSWORD_BCRYPT);
+    // }
 }

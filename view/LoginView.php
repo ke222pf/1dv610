@@ -12,6 +12,7 @@ class LoginView {
 	private static $messageId = 'LoginView::Message';
 	private $userException;
 	private $loginUser;
+	private $message;
 	public function __construct(\model\UserException $userException, \model\Login $loginUser) {
 		$this->userException = $userException;
 		$this->loginUser = $loginUser;
@@ -24,27 +25,17 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = '';
-		$Regmessage = "";
-
-		if(!empty($_POST[self::$login]))
-		{
-			try
-			{
-				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName(), $this->loginUser->userLoggedIn());
-			}
-			catch(Exception $e)
-			{
-				$message = $e->getMessage();
-			}
+		$this->message = '';
+		if(!empty($_REQUEST[self::$logout])) {
+			return true;
 		}
-				$response = $this->generateLoginFormHTML($message);
-				return $response;
-		
-			//$response .= $this->generateLogoutButtonHTML($message);
-			
+		// if($this->loginUser->userLoggedIn() == true) {
+		// 	$_SESSION["username"] = $this->getRequestUserName();
+		// 	$response = $this->generateLogoutButtonHTML($this->message);
+		// 	return $response;
+		// } else {
+		// }
 	}
-
 	/**
 	* Generate HTML code on the output buffer for the logout button
 	* @param $message, String output message
@@ -57,6 +48,25 @@ class LoginView {
 				<input type="submit" name="' . self::$logout . '" value="logout"/>
 			</form>
 		';
+	}
+	public function renderlogginForm () {
+	if($this->loginUser->userLoggedIn() == true) {
+			$_SESSION['username'] = $this->getRequestUserName();
+			$response = $this->generateLogoutButtonHTML($this->message);
+			return $response;
+		} else {
+			// echo "nu kör denna";
+			$response = $this->generateLoginFormHTML($this->message);
+			return $response;
+		}
+	}
+	public function logout() {
+		// echo "nu kör denna";
+			$this->message = "bye bye!";
+			unset($_SESSION['username']);
+			session_destroy();
+			$response = $this->generateLoginFormHTML($this->message);
+			return $response;
 	}
 	
 	/**
@@ -72,7 +82,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'. $this->keepUsername() .'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -85,7 +95,7 @@ class LoginView {
 			</form>
 		';
 	}
-	
+
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	public function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
@@ -99,6 +109,21 @@ class LoginView {
 			return "";
 		}
 	}
+	public function validateLogin () {
+		if(!empty($_POST[self::$login]))
+		{
+			try
+			{
+				$this->userException->ValidateUserCredentials($this->getRequestPassword(), $this->getRequestUserName(), $this->loginUser->userLoggedIn(), $this->ifLoggedIn());
+				
+			}
+			catch(Exception $e)
+			{
+				$this->message = $e->getMessage();
+				
+			}
+		}
+	}
 	public function getRequestPassword() {
 		$password = self::$password;
 		if(isset($_POST[$password]))
@@ -109,6 +134,12 @@ class LoginView {
 		{
 			return "";
 		}
+	}
+	public function keepUsername() {
+		return $this->getRequestUserName();
+	}
+	public function ifLoggedIn () {
+		return isset($_SESSION['username']);
 	}
 
 }

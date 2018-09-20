@@ -2,7 +2,7 @@
 namespace model;
 class UserException {
 
-public function ValidateUserCredentials ($password, $name, $matchUser) {
+public function ValidateUserCredentials ($password, $name, $matchUser, $ifLoggedIn) {
     if(empty($name))
 	{
 		throw new \Exception("Username is missing");
@@ -12,38 +12,41 @@ public function ValidateUserCredentials ($password, $name, $matchUser) {
     {
 		throw new \Exception("Password is missing");
     } 
-    else if($matchUser = false) {
+    else if($matchUser == true && $ifLoggedIn == false) {
 
-        throw new \Exception("Wrong name or password");
-
-    } else if($matchUser = true) {
-        
         throw new \Exception("Welcome");
+
+    } else if ($matchUser == true && $ifLoggedIn == true) {
+        throw new \Exception("");
+
+    } else if($matchUser == false) {
+        
+        throw new \Exception("Wrong name or password");
     }
-    }
+}
 
     public function VlaidateRegisterUser($regPassword, $regName, $regPasswordConf, $checkUserReg) {
         if(empty($regName))
         {
-            throw new \Exception("no username");
+            $message = "Username has too few characters, at least 3 characters.";
     
         }	
         else if(empty($regPassword))
         {
-            throw new \Exception("no password");
+            $message = "Password has too few characters, at least 6 characters.";
         }
         else if($regPassword != $regPasswordConf) 
         {
-            throw new \Exception("Passwords do not match.");
+            $message = "Passwords do not match.";
         }
         else if(strlen($regPassword) < 6) {
-            throw new \Exception("Password has too few characters, at least 6 characters.");
+            $message = "Password has too few characters, at least 6 characters.";
         }
         else if(strlen($regName) < 3) {
-            throw new \Exception("Username has too few characters, at least 3 characters.");
+            $message = "Username has too few characters, at least 3 characters.";
         }
         else if($checkUserReg = true) {
-            throw new \Exception("Registered new user.");
+            $message = "Registered new user.";
         }
     }
 }

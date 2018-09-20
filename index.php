@@ -22,13 +22,12 @@ $l = new \model\Login($ctdb);
 $v = new \view\LoginView($ue, $l);
 $db = new \model\Userdb($ctdb);
 $rv = new \view\RegisterView($ue, $db);
-$gv = new \controller\GetVariables($v, $rv, $db, $l);
 $dtv = new \view\DateTimeView();
-$lv = new \view\LayoutView();
+$lv = new \view\LayoutView($dtv, $v, $rv);
+$gv = new \controller\GetVariables($v, $rv, $db, $l, $lv);
 // $isLoggedIn = $l->userLoggedIn();
-$gv->getCredentials();
-$lv->render($l->userLoggedIn(), $dtv, $v, $rv);
-var_dump($l->userLoggedIn());
+$gv->route();
+// $lv->render($dtv, $v, $rv);
 // $v->response();
 
 

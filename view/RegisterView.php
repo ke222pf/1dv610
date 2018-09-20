@@ -9,24 +9,13 @@ class RegisterView {
     private static $registerUser = 'DoRegistration';
     private $userException;
     private $userdb;
+    private $message;
 	public function __construct(\model\UserException $userException, \model\Userdb $userdb) {
         $this->userException = $userException;
         $this->userdb = $userdb;
 	}
     public function response() {
-        $message = '';
-        if(!empty($_POST[self::$registerUser])) {
-            try
-			{
-				$this->userException->VlaidateRegisterUser($this->getRequestRegPassword(), $this->getRequestRegUserName(), $this->getRequestRegPasswordConformation(), $this->userdb->checkUserReg());
-			}
-			catch(Exception $e)
-			{
-				$message = $e->getMessage();
-			}
-        }
-        $response = $this->generateRegisterFormHTML($message);
-        return $response;
+        $this->message = '';
     }
 
     private function generateRegisterFormHTML ($Regmessage) {
@@ -50,7 +39,22 @@ class RegisterView {
         </form>
 		';
     }
-    
+    public function renderlogginForm() {
+        $response = $this->generateRegisterFormHTML($this->message);
+        return $response;
+    }
+    public function validateUserReg() {
+        if(!empty($_POST[self::$registerUser])) {
+            try
+			{
+				$this->userException->VlaidateRegisterUser($this->getRequestRegPassword(), $this->getRequestRegUserName(), $this->getRequestRegPasswordConformation(), $this->userdb->checkUserReg());
+			}
+			catch(Exception $e)
+			{
+				$this->message = $e->getMessage();
+            }
+        }
+    }
 	public function getRequestRegUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
 		$username = self::$registerName;
