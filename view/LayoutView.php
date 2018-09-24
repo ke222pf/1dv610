@@ -5,14 +5,17 @@ class LayoutView {
   private $dtv;
   private $v;
   private $rv;
-  public function __construct(\view\DateTimeView $dtv, \view\LoginView $v, \view\RegisterView $rv) {
+  private $login;
+  public function __construct(\view\DateTimeView $dtv, \view\LoginView $v, \view\RegisterView $rv, \model\Login $login) {
     $this->dtv = $dtv;
     $this->v = $v;
     $this->rv = $rv;
+    $this->login = $login;
 
   }
   
-  public function render($isLoggedIn) {
+  public function render() {
+    $isLoggedIn = $this->login->userLoggedIn();
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -22,7 +25,8 @@ class LayoutView {
         <body>
         <h1>Assignment 2</h1>
         '. $this->generateLink($isLoggedIn).'
-          ' . $this->renderIsLoggedIn() . '
+          ' . $this->renderIsLoggedIn($isLoggedIn) . '
+          ' . $this->registerUser() . '
           <div class="container">
               ' . $this->generateNewView() . '
               
@@ -33,15 +37,22 @@ class LayoutView {
     ';
   }
   
-  private function renderIsLoggedIn() {
-    if ($this->v->ifLoggedIn()) {
+  public function renderIsLoggedIn($isLoggedIn) {
+    if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
     }
     else {
       return '<h2>Not logged in</h2>';
     }
   }
-  private function generateLink ($isLoggedIn) {
+  public function registerUser() {
+    if(isset($_GET["register"])) {
+      return '<h2> Register new user</h2>';
+    } else {
+      return "";
+    }
+  }
+  public function generateLink ($isLoggedIn) {
     if($isLoggedIn) {
 
     } else {
@@ -53,10 +64,11 @@ class LayoutView {
     }
   }
   private function generateNewView() {
-    if(!empty($_GET['register'])) {
-      return $this->rv->renderlogginForm();
+    if(isset($_GET['register'])) {
+      return $this->rv->validateUserReg();
     } else {
       return $this->v->renderlogginForm();
     }
   }
 }
+

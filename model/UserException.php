@@ -3,6 +3,7 @@ namespace model;
 class UserException {
 
 public function ValidateUserCredentials ($password, $name, $matchUser, $ifLoggedIn) {
+    // var_dump($ifLoggedIn, $matchUser);
     if(empty($name))
 	{
 		throw new \Exception("Username is missing");
@@ -25,28 +26,24 @@ public function ValidateUserCredentials ($password, $name, $matchUser, $ifLogged
     }
 }
 
-    public function VlaidateRegisterUser($regPassword, $regName, $regPasswordConf, $checkUserReg) {
-        if(empty($regName))
-        {
-            $message = "Username has too few characters, at least 3 characters.";
+    // public function VlaidateRegisterUser($regPassword, $regName, $regPasswordConf, $checkUserReg) {
+    //     // if(empty($regName))
+    //     // {
+    //     //     throw new \Exception("Username has too few characters, at least 3 characters.");
     
-        }	
-        else if(empty($regPassword))
-        {
-            $message = "Password has too few characters, at least 6 characters.";
-        }
-        else if($regPassword != $regPasswordConf) 
-        {
-            $message = "Passwords do not match.";
-        }
-        else if(strlen($regPassword) < 6) {
-            $message = "Password has too few characters, at least 6 characters.";
-        }
-        else if(strlen($regName) < 3) {
-            $message = "Username has too few characters, at least 3 characters.";
-        }
-        else if($checkUserReg = true) {
-            $message = "Registered new user.";
-        }
-    }
+    //     // }	
+    //     // if($regPassword != $regPasswordConf) 
+    //     // {
+    //     //     throw new \Exception("Passwords do not match.");
+    //     // }
+    //     if(strlen($regPassword) < 6) {
+    //         throw new \Exception("Password has too few characters, at least 6 characters.");
+    //     }
+    //     if(strlen($regName) < 3) {
+    //         throw new \Exception("Username has too few characters, at least 3 characters.");
+    //     }
+    //     if($checkUserReg == true) {
+    //         throw new \Exception("Registered new user.");
+    //     }
+    // }
 }

@@ -23,11 +23,8 @@ $v = new \view\LoginView($ue, $l);
 $db = new \model\Userdb($ctdb);
 $rv = new \view\RegisterView($ue, $db);
 $dtv = new \view\DateTimeView();
-$lv = new \view\LayoutView($dtv, $v, $rv);
+$lv = new \view\LayoutView($dtv, $v, $rv, $l);
 $gv = new \controller\GetVariables($v, $rv, $db, $l, $lv);
-// $isLoggedIn = $l->userLoggedIn();
 $gv->route();
-// $lv->render($dtv, $v, $rv);
-// $v->response();
-
-
+$isLoggedIn = $l->userLoggedIn();
+$lv->render($isLoggedIn, $dtv, $v, $rv);

@@ -23,12 +23,16 @@ $this->regUser();
 }
 public function regUser()
 {
+    // echo "regUSer";
     // if($this->registerView->getRequestRegUserName() && $this->registerView->getRequestRegPassword()) {
         $this->userdb->getUserCredentials($this->registerView->getRequestRegUserName(), $this->registerView->getRequestRegPasswordConformation(), $this->registerView->getRequestRegPassword());
-        $this->userdb->setUpToDB();
+        // $this->registerView->validateUserReg();
+        // $this->registerView->checkPass word();
         $this->registerView->validateUserReg();
-        $this->registerView->renderlogginForm();
-        $this->lv->render($this->login->userLoggedIn());
+        $this->userdb->setUpToDB();
+        // $this->registerView->response();
+        // $this->registerView->checkname();
+        // $this->lv->render($this->login->userLoggedIn());
         // $this->registerView->validateUserReg();
     // }
     
@@ -36,19 +40,14 @@ public function regUser()
 public function login() {
         $this->login->getCredentials($this->view->getRequestUserName(), $this->view->getRequestPassword());
         $this->login->match();
+        $this->view->response();
         $this->view->validateLogin();
-           $this->view->renderlogginForm();
-           $this->lv->render($this->login->userLoggedIn());
-           if($this->view->response() == true) {
-               $this->logout();
-        }
+        //    $this->view->renderlogginForm();
+        //    $this->lv->render($this->login->userLoggedIn());
 
           
         // $this->view->validateLogin();
+}
 
-}
-public function logout() {
-        $this->view->logout();
-}
 
 }

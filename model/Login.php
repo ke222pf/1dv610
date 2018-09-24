@@ -19,10 +19,8 @@ public function __construct(\model\ConnectDb $connectDb) {
         $getUsername->execute();
         $matchUser = $getUsername->fetch();
         if($matchUser && password_verify($this->password, $matchUser['password'])) {
-            // echo "logged in";
             $this->checkUser = true;
         } else {
-            // echo "not logged in";
             $this->checkUser = false;
         }
     }

@@ -27,6 +27,7 @@ class LoginView {
 	public function response() {
 		$this->message = '';
 		if(!empty($_REQUEST[self::$logout])) {
+			$this->logout();
 			return true;
 		}
 		// if($this->loginUser->userLoggedIn() == true) {
@@ -55,16 +56,17 @@ class LoginView {
 			$response = $this->generateLogoutButtonHTML($this->message);
 			return $response;
 		} else {
-			// echo "nu kör denna";
 			$response = $this->generateLoginFormHTML($this->message);
 			return $response;
 		}
 	}
 	public function logout() {
-		// echo "nu kör denna";
-			$this->message = "bye bye!";
-			unset($_SESSION['username']);
-			session_destroy();
+		unset($_SESSION['username']);
+		session_destroy();
+		if(!isset($_SESSION['username'])) {
+
+			$this->message = "Bye bye!";
+		}
 			$response = $this->generateLoginFormHTML($this->message);
 			return $response;
 	}
@@ -139,7 +141,7 @@ class LoginView {
 		return $this->getRequestUserName();
 	}
 	public function ifLoggedIn () {
-		return isset($_SESSION['username']);
+		return isset($_SESSION['username']) && strlen($_SESSION['username']) > 0;
 	}
 
 }
