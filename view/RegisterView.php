@@ -6,11 +6,9 @@ class RegisterView {
 	private static $registerPassword = 'RegisterView::Password';
     private static $registerPasswordRepeat = 'RegisterView::PasswordRepeat';
     private static $registerUser = 'RegisterView::DoRegistration';
-    private $userException;
     private $userdb;
     private $message;
-	public function __construct(\model\UserException $userException, \model\Userdb $userdb) {
-        $this->userException = $userException;
+	public function __construct(\model\Userdb $userdb) {
         $this->userdb = $userdb;
 	}
 
@@ -22,7 +20,7 @@ class RegisterView {
 					<p id="' . self::$registerMessageId . '">' . $Regmessage . '</p>
 					
 					<label for="' . self::$registerName . '">Username :</label>
-					<input type="text" size="20"  name="' . self::$registerName . '" value="'. $this->getRequestRegUserName() .'" id="' . self::$registerName . '" />
+					<input type="text" size="20"  name="' . self::$registerName . '" value="'. $this->checkForInvalidCharacters() .'" id="' . self::$registerName . '" />
 
 					<label for="' . self::$registerPassword . '">Password :</label>
 					<input type="password" size="20"  name="' . self::$registerPassword . '" id="' . self::$registerPassword . '" />
@@ -35,11 +33,6 @@ class RegisterView {
         </form>
 		';
     }
-    // public function generateView () {
-    //     $this->message = "";
-    //     $response = $this->generateRegisterFormHTML($this->message);
-    //     return $response;
-    // }
     public function validateUserReg() {
         if(!empty($_POST)) {
             $this->validateUserRegristration();
@@ -62,7 +55,8 @@ class RegisterView {
 		{
 			return "";
 		}
-	}
+    }
+
 	public function getRequestRegPassword() {
 		$password = self::$registerPassword;
 		if(isset($_POST[$password]))
@@ -91,7 +85,7 @@ class RegisterView {
         {
             $this->message .= "Passwords do not match." .  '<br>';
         }
-        if(empty($this->getRequestRegUserName()) || strlen($this->getRequestRegUserName() < 3))
+        if(empty($this->getRequestRegUserName()) || strlen($this->getRequestRegUserName()) < 3)
         {
             $this->message .= "Username has too few characters, at least 3 characters." . '<br>';
     
@@ -101,6 +95,17 @@ class RegisterView {
         }
         if($this->userdb->checkUserReg() == true) {
             $this->message .= "Registered new user.". '<br>';
+        }
+        if(preg_match('/[^A-Za-z0-9.#\\-$]/', $this->getRequestRegUserName())) {
+            $this->message = "Username contains invalid characters.";
+        }
+    }
+    public function checkForInvalidCharacters() {
+        if(preg_match('/[^A-Za-z0-9.#\\-$]/', $this->getRequestRegUserName())) {
+            $string = strip_tags($this->getRequestRegUserName());
+            return $string;
+        } else {
+            return $this->getRequestRegUserName();
         }
     }
 }

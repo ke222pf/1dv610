@@ -30,12 +30,7 @@ class LoginView {
 			$this->logout();
 			return true;
 		}
-		// if($this->loginUser->userLoggedIn() == true) {
-		// 	$_SESSION["username"] = $this->getRequestUserName();
-		// 	$response = $this->generateLogoutButtonHTML($this->message);
-		// 	return $response;
-		// } else {
-		// }
+
 	}
 	/**
 	* Generate HTML code on the output buffer for the logout button

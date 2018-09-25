@@ -12,6 +12,7 @@ public function __construct(\model\ConnectDb $connectDb) {
        $this->name = $name;
        $this->password = $password;
     }
+    // SOURCE:  https://www.youtube.com/watch?v=bjT5PJn0Mu8
     public function match() {
         $getConnection = $this->connectDb->createConnection();
         $getUsername = $getConnection->prepare('SELECT id, name, password FROM users WHERE name=:name');

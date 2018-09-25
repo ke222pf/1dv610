@@ -19,7 +19,7 @@ class Userdb {
     public function setUpToDB () {
         $connect = $this->connectDb->createConnection();
         $mySql = "INSERT INTO users(name, password) VALUES (:name, :password)";
-        // $setUpUser = $connect->prepare($mySql);
+        $setUpUser = $connect->prepare($mySql);
         if($this->password == $this->passwordConf && strlen($this->username) > 2 && strlen($this->password > 5)) {
             $hash = password_hash($this->password, PASSWORD_BCRYPT);
             $setUpUser->bindParam(':name', $this->username);
@@ -34,7 +34,4 @@ class Userdb {
     public function checkUserReg () {
         return $this->checkRegister;
     }
-    // public function hashPassword($passwordReg) {
-    //    $this->password = password_hash($passwordReg, PASSWORD_BCRYPT);
-    // }
 }

@@ -28,7 +28,7 @@ public function regUser()
         $this->userdb->getUserCredentials($this->registerView->getRequestRegUserName(), $this->registerView->getRequestRegPasswordConformation(), $this->registerView->getRequestRegPassword());
         // $this->registerView->validateUserReg();
         // $this->registerView->checkPass word();
-        $this->registerView->validateUserReg();
+        // $this->registerView->validateUserReg();
         $this->userdb->setUpToDB();
         // $this->registerView->response();
         // $this->registerView->checkname();
