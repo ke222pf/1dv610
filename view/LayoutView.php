@@ -27,7 +27,6 @@ class LayoutView {
         '. $this->generateLink($isLoggedIn).'
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           ' . $this->registerUser() . '
-          '. $this->afterReg() .'
           <div class="container">
               ' . $this->generateNewView() . '
               
@@ -68,11 +67,6 @@ class LayoutView {
     if(isset($_GET['register'])) {
       return $this->rv->validateUserReg();
     } else {
-      return $this->v->renderlogginForm();
-    }
-  }
-  public function afterReg () {
-    if ($this->rv->checkIfReg()) {
       return $this->v->renderlogginForm();
     }
   }
