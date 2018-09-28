@@ -23,18 +23,8 @@ $this->regUser();
 }
 public function regUser()
 {
-    // echo "regUSer";
-    // if($this->registerView->getRequestRegUserName() && $this->registerView->getRequestRegPassword()) {
         $this->userdb->getUserCredentials($this->registerView->getRequestRegUserName(), $this->registerView->getRequestRegPasswordConformation(), $this->registerView->getRequestRegPassword());
-        // $this->registerView->validateUserReg();
-        // $this->registerView->checkPass word();
-        // $this->registerView->validateUserReg();
         $this->userdb->setUpToDB();
-        // $this->registerView->response();
-        // $this->registerView->checkname();
-        // $this->lv->render($this->login->userLoggedIn());
-        // $this->registerView->validateUserReg();
-    // }
     
 }
 public function login() {
@@ -42,11 +32,6 @@ public function login() {
         $this->login->match();
         $this->view->response();
         $this->view->validateLogin();
-        //    $this->view->renderlogginForm();
-        //    $this->lv->render($this->login->userLoggedIn());
-
-          
-        // $this->view->validateLogin();
 }
 
 

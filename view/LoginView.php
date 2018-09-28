@@ -47,7 +47,7 @@ class LoginView {
 	}
 	public function renderlogginForm () {
 	if($this->loginUser->userLoggedIn() == true) {
-			$_SESSION['username'] = $this->getRequestUserName();
+		$_SESSION['username'] = $this->getRequestUserName();
 			$response = $this->generateLogoutButtonHTML($this->message);
 			return $response;
 		} else {
@@ -58,7 +58,7 @@ class LoginView {
 	public function logout() {
 		unset($_SESSION['username']);
 		session_destroy();
-		if(!isset($_SESSION['username'])) {
+		if(!isset($_SESSION['username']) && $this->loginUser->userLoggedIn() == false) {
 
 			$this->message = "Bye bye!";
 		}

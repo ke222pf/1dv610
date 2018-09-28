@@ -108,4 +108,11 @@ class RegisterView {
             return $this->getRequestRegUserName();
         }
     }
+    public function checkIfreg() {
+        if(isset($_POST) && $this->userdb->checkUserReg() == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

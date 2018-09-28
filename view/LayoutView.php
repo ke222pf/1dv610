@@ -25,8 +25,9 @@ class LayoutView {
         <body>
         <h1>Assignment 2</h1>
         '. $this->generateLink($isLoggedIn).'
-          ' . $this->renderIsLoggedIn() . '
+          ' . $this->renderIsLoggedIn($isLoggedIn) . '
           ' . $this->registerUser() . '
+          '. $this->afterReg() .'
           <div class="container">
               ' . $this->generateNewView() . '
               
@@ -37,7 +38,7 @@ class LayoutView {
     ';
   }
   
-  public function renderIsLoggedIn() {
+  public function renderIsLoggedIn($isLoggedIn) {
     if ($this->v->ifLoggedIn()) {
       return '<h2>Logged in</h2>';
     }
@@ -67,6 +68,11 @@ class LayoutView {
     if(isset($_GET['register'])) {
       return $this->rv->validateUserReg();
     } else {
+      return $this->v->renderlogginForm();
+    }
+  }
+  public function afterReg () {
+    if ($this->rv->checkIfReg()) {
       return $this->v->renderlogginForm();
     }
   }
